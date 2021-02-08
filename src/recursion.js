@@ -25,7 +25,7 @@ var sum = function(array) {
   var next = array.slice();
   next.shift();
 
-  // Base Case, if we are at the end of the array, end recursion
+  // Base Case, if at the end of the array, end recursion
   if (next.length === 1) { return array[0] + next[0]; }
 
   // Invoke recursion
@@ -35,11 +35,43 @@ var sum = function(array) {
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  // Edge Cases
+  if (array.length === 0) { return 0; }
+  if (array.length === 1 && !Array.isArray(array[0])) { return array[0]; }
 
+  var flatArray = array.flat(Infinity);
+
+  // Create a copy of the input array and shift it
+  var next = flatArray.slice();
+  next.shift();
+
+  // Base Case, if at the end of the array, end recursion
+  if (next.length === 1) { return flatArray[0] + next[0]; }
+
+  // Invoke recursion
+  return (flatArray[0] + arraySum(next));
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  // Edge Cases
+  if (n === 0 || n === -0) { return true; }
+  if (n === 1 || n === -1) { return false; }
+
+  // Problem: subtract 2 from the number until you get either 0 or 1
+  var minusTwo = function(n) {
+    return n - 2;
+  }
+  n = Math.abs(n);
+  var val = minusTwo(n);
+
+  if (val === 0) {
+    return true;
+  } else if (val === 1) {
+    return false;
+  } else {
+    return isEven(val);
+  }
 };
 
 // 5. Sum all integers below a given integer.
